@@ -1,7 +1,17 @@
 import pickle
+from xml.parsers.expat import model
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
 # TODO: add necessary import
+import os
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder, LabelBinarizer
+from sklearn.metrics import make_scorer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import GridSearchCV
+from typing import Union
+
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
