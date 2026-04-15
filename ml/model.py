@@ -1,4 +1,4 @@
-import pickle
+import pickle 
 from xml.parsers.expat import model
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
@@ -6,17 +6,16 @@ from ml.data import process_data
 import os
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder, LabelBinarizer
-from sklearn.metrics import make_scorer
+from sklearn.preprocessing import OneHotEncoder, LabelBinarizer, StandardScaler 
+from sklearn.metrics import make_scorer, fbeta_score 
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
-from typing import Union
+from sklearn.ensemble import RandomForestClassifier
+
 
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train: Union[pd.DataFrame, np.ndarray], 
-                y_train: Union[pd.Series, np.ndarray],
-                parameters: dict = None) -> LogisticRegression:
+def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
 
@@ -31,17 +30,20 @@ def train_model(X_train: Union[pd.DataFrame, np.ndarray],
     model
         Trained machine learning model.
     """
-    # TODO: implement the function
-    clf = LogisticRegression(random_state=72925)
-    scorer = make_scorer(fbeta_score,  beta=1)
-    grid_object = GridSearchCV(clf, parameters, scoring=scorer, n_jobs=-1, cv=5)
-    grid_fit = grid_object.fit(X_train, y_train)
-    best_clf = grid_fit.best_estimator_
-    best_clf.fit(X_train, y_train)
+    model = RandomForestClassifier(
+        n_estimators=200,
+        max_depth=None,
+        min_samples_split=2,
+        min_samples_leaf=1,
+        n_jobs=-1,
+        random_state=42
+    )
 
-    return best_clf
+    model.fit(X_train, y_train)
+    return model
+  
 
-def compute_model_metrics(y: Union[pd.Series, np.ndarray], preds: Union[pd.Series, np.ndarray]):
+def compute_model_metrics(y, preds):
     """
     Validates the trained machine learning model using precision, recall, and F1.
 
@@ -63,7 +65,7 @@ def compute_model_metrics(y: Union[pd.Series, np.ndarray], preds: Union[pd.Serie
     return precision, recall, fbeta
 
 
-def inference(model: LogisticRegression, X: Union[pd.DataFrame, np.ndarray]) -> Union[np.ndarray, pd.Series]:
+def inference(model, X):
     """ Run model inferences and return the predictions.
 
     Inputs
@@ -78,9 +80,11 @@ def inference(model: LogisticRegression, X: Union[pd.DataFrame, np.ndarray]) -> 
         Predictions from the model.
     """
     # TODO: implement the function
-    return model.predict(X)
+    preds = model.predict(X)
+    return preds
 
-def save_model(model, path: str) -> None:
+
+def save_model(model, path):
     """ Serializes model to a file.
 
     Inputs
@@ -90,12 +94,9 @@ def save_model(model, path: str) -> None:
     path : str
         Path to save pickle file.
     """
-    # TODO: implement the function
-    #pass
-    if os.path.exists(path):
-        os.unlink(path) #remove the file if it already exists
     with open(path, 'wb') as pickle_file:
-        pickle.dump(model, pickle_file)
+        pickle.dump(model, pickle_file) 
+
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
@@ -106,8 +107,8 @@ def load_model(path):
     return model
 
 def performance_on_categorical_slice(
-    data, column_name, slice_value, categorical_features, label, encoder, lb, model
-):
+    data, column_name, slice_value, categorical_features, label, encoder, lb, 
+    model):
     """ Computes the model metrics on a slice of the data specified by a column name and
 
     Processes the data using one hot encoding for the categorical features and a
@@ -131,9 +132,8 @@ def performance_on_categorical_slice(
         Trained sklearn OneHotEncoder, only used if training=False.
     lb : sklearn.preprocessing._label.LabelBinarizer
         Trained sklearn LabelBinarizer, only used if training=False.
-    model : RandomFrostClassifier
+    model : RandomForestClassifier
         Model used for the task.
-
     Returns
     -------
     precision : float
@@ -141,18 +141,18 @@ def performance_on_categorical_slice(
     fbeta : float
 
     """
-    # TODO: implement the function
+    slice_df= data[data[column_name] == slice_value]
     X_slice, y_slice, _, _ = process_data(
         # your code here
         # for input data, use data in column given as "column_name", with the slice_value 
         # use training = False
-        sliced_data, 
-        categorical_features, 
-        label, 
-        encoder, 
-        lb, 
-        training=False, 
-        std_scaler=std_scaler
+        slice_df,
+        categorical_features=categorical_features,
+        label=label,
+        encoder=encoder,
+        lb=lb,
+        training=False,
+       
     )
     preds = inference(model=model, X=X_slice) #None # your code here to get prediction on X_slice using the inference function
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
