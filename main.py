@@ -26,11 +26,41 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
-path = os.path.join(os.getcwd(), "model", "encoder.pkl") # TODO: enter the path for the saved encoder 
-encoder = load_model(path)
+MODEL_PATH = os.path.join(os.getcwd(), "model", "model.pkl")
+ENCODER_PATH = os.path.join(os.getcwd(), "model", "encoder.pkl")
 
-path = os.path.join(os.getcwd(), "model", "model.pkl") # TODO: enter the path for the saved model 
-model = load_model(path)
+model = None
+encoder = None
+
+def get_artifacts():
+    """
+    Load model and encoder lazily so pytest can import this file
+    without requiring model files to exist. The issue likely arises because of 
+    the way pytest imports files and runs tests, which can lead to situations 
+    where the model and encoder files are not available at the time of import.
+    By loading the model and encoder lazily within a function, we can ensure 
+    that they are only loaded when needed, allowing pytest to import the file 
+    without errors.
+    
+    """
+    global model, encoder
+
+    if encoder is None:
+        if not os.path.exists(ENCODER_PATH):
+            raise RuntimeError(
+                f"Encoder not found at {ENCODER_PATH}. Train the model first."
+            )
+        encoder = load_model(ENCODER_PATH)
+
+    if model is None:
+        if not os.path.exists(MODEL_PATH):
+            raise RuntimeError(
+                f"Model not found at {MODEL_PATH}. Train the model first."
+            )
+        model = load_model(MODEL_PATH)
+
+    return model, encoder
+
 
 # TODO: create a RESTful API using FastAPI
 app = FastAPI()
