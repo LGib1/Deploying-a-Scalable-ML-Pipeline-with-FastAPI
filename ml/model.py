@@ -31,7 +31,7 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
     model = RandomForestClassifier(
-        n_estimators=200,
+        n_estimators=100,
         max_depth=None,
         min_samples_split=2,
         min_samples_leaf=1,
