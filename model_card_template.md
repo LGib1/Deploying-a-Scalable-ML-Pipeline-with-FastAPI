@@ -40,7 +40,15 @@ Developed for educational purposes as part of an Udacity course offered at WGU t
 ## Evaluation Data
 
 ## Metrics
-_Please include the metrics used and your model's performance on those metrics._
+The following metrics were computed and reflect the model’s ability to predict an individual’s binary category for earnings:
+
+* Precision: 0.7220, which means that the model correctly predicts an individual’s salary > $50,000.00 approximately 72% of the time. 
+* Recall: 0.6219, which means the model captures approximately 62% of individuals with income > $50,000.00. 
+* F1: 0.6682, which balances Precision and Recall into a single measure. 
+
+The model performed slice-based performance to evaluate slices of key categorical features. The output is logged in slice_output.txt. 
+A review of the slice_output.txt identified limited sample size for certain categorical data including but not limited to 
+lower education levels (specifically preschool levels), and certain native countries. 
 
 ## Ethical Considerations
 
