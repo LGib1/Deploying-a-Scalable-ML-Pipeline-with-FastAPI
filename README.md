@@ -1,6 +1,6 @@
 Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
 
-#Git Repository Link: 
+# Git Repository Link: 
 *https://github.com/LGib1/Deploying-a-Scalable-ML-Pipeline-with-FastAPI.git
 
 # Environment Set up (pip or conda)
