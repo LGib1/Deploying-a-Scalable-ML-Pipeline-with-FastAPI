@@ -38,7 +38,7 @@ Developed for educational purposes as part of an Udacity course offered at WGU t
 ## Training Data
 The model creates a train-test split of the Input Data (identified above) with 70% to the train set, and a hold-out of 30% to the test set. 
 
-The Input Data contains 48,842 rows and 15 columns and was extracted from the 1994 Census database. Of the 15 columns, the following were included in the model: 
+The Input Data contains 48,842 rows and 15 columns and was extracted from the 1994 Census database. Of the 15 columns, the following, categorical features, were included in the model: 
 
 * workclass
 * education
@@ -53,6 +53,9 @@ Categorical features were one-hot encoded using a fitted OneHotEncoder.
 The target label (“salary”) was binarized using LabelBinarizer.
 
 ## Evaluation Data
+Evaluation was performed on the held-out 30% creating the test set. The same encoder and label binarizer was used to ensure consistency. 
+
+Slice-based evaluation was performed across the above identified categorical features, and results were logged in slice_output.txt. 
 
 ## Metrics
 The following metrics were computed and reflect the model’s ability to predict an individual’s binary category for earnings:
