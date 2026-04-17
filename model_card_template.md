@@ -38,7 +38,7 @@ Developed for educational purposes as part of an Udacity course offered at WGU t
 ## Training Data
 The model creates a train-test split of the Input Data (identified above) with 70% to the train set, and a hold-out of 30% to the test set. 
 
-The Input Data contains 48,842 rows and 15 columns and was extracted from the 1994 Census database. Of the 15 columns, the following, categorical features, were included in the model: 
+The Input Data contains 32,561 rows and 15 columns and was extracted from the 1994 Census database. Of the 15 columns, the following, categorical features, were included in the model: 
 
 * workclass
 * education
