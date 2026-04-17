@@ -36,6 +36,21 @@ Developed for educational purposes as part of an Udacity course offered at WGU t
  ** Not intended for real-world use. ** 
 
 ## Training Data
+The model creates a train-test split of the Input Data (identified above) with 70% to the train set, and a hold-out of 30% to the test set. 
+
+The Input Data contains 48,842 rows and 15 columns and was extracted from the 1994 Census database. Of the 15 columns, the following were included in the model: 
+
+* workclass
+* education
+* marital-status
+* occupation
+* relationship
+* race
+* sex
+* native-country
+
+Categorical features were one-hot encoded using a fitted OneHotEncoder.
+The target label (“salary”) was binarized using LabelBinarizer.
 
 ## Evaluation Data
 
