@@ -69,5 +69,11 @@ A review of the slice_output.txt identified limited sample size for certain cate
 lower education levels (specifically preschool levels), and certain native countries. 
 
 ## Ethical Considerations
+* Input Data contains sensitive demographic information including race, sex, marital-status, and native country. 
+* Biases present in the data will be inherited by the model. 
+* Use of the data could reinforce biases and should not be used for real-world applications. 
 
 ## Caveats and Recommendations
+* The dataset is outdated and may not reflect current socioeconomic patterns. 
+* Some slices have small sample sizes leading to unreliable and/or misleading results.
+* Although the dataset is large, it may not properly represent the population’s diversity since the U.S. Census contains bias including nonresponse and sampling bias.  
